@@ -1,5 +1,5 @@
 "use client";
-import { useAddProductsMutation } from "@/lip/features/product/prodcutApi";
+import { useAddProductsMutation } from "@/lip/features/product/prodcuctApi";
 import { productRequst, productResponse } from "@/lip/types/productType";
 
 export default function AddProduct() {

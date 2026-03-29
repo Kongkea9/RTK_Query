@@ -1,6 +1,6 @@
 "use client";
 
-import { useGetProductsQuery } from "@/lip/features/product/prodcutApi";
+import { useGetProductsQuery } from "@/lip/features/product/prodcuctApi";
 import Link from "next/link";
 import ProductCard from "../component/productCard";
 
