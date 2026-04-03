@@ -1,4 +1,5 @@
 "use client";
+import ProductDeleteItem from "@/app/dashboard/deleteProduct/page";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -15,44 +16,51 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { deleteProductById } from "@/lip/features/product/imagApi";
 import {
   useDeleteProductMutation,
   useGetProductsQuery,
 } from "@/lip/features/product/prodcuctApi";
 import { MoreHorizontalIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
-// import { useRouter } from "next/router";
+
 import { Dialog } from "radix-ui";
 import React from "react";
+import { toast } from "sonner";
 import { da } from "zod/locales";
 
 export function ProductlistClient() {
   const { data, isLoading, isSuccess, error } = useGetProductsQuery();
-  const [deleteProduct, { isLoading: isDeleting }] = useDeleteProductMutation();
 
-
-
-  const [selectedProduct, setSelectedProduct] = React.useState<any>(null);
-
-  // const router = useRouter();
-  const router = useRouter();
+  const [deleteProduct] = useDeleteProductMutation();
 
   const handleDelete = async (id: number) => {
     try {
-      const data = await deleteProduct(id).unwrap();
-      console.log(data);
-    } catch (err) {
+      console.log("id: ", id);
+      const response = await deleteProduct(id).unwrap();
+      console.log("delete: ", response);
+      if (response) {
+        toast.success("Product deleted successfully");
+      } else {
+        toast.error("Failed to delete product");
+      }
+    } catch (err: any) {
       console.error("Delete failed", err);
+      toast.error(err?.data?.message || "Failed to delete");
     }
   };
+  const [selectedProduct, setSelectedProduct] = React.useState<any>(null);
+
+  const router = useRouter();
 
   const handleEdit = (id: number) => {
     router.push(`/dashboard/updateProduct/${id}`);
   };
 
-  //  const [addProduct, { data, isLoading, isSuccess }] = useAddProductsMutation();
 
   console.log(data);
+
+  if (isLoading) return <div>Loading...</div>;
 
   return (
     <Table>
@@ -84,13 +92,12 @@ export function ProductlistClient() {
                   </DropdownMenuItem>
                   <DropdownMenuItem>Duplicate</DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem
-                    variant="destructive"
-                    onClick={() => handleDelete(product.id)}
-                    // disabled={isDeleting}
-                  >
-                    Delete
-                  </DropdownMenuItem>
+              
+
+                  <ProductDeleteItem
+                    productId={product.id}
+                    onDelete={handleDelete}
+                  />
                 </DropdownMenuContent>
               </DropdownMenu>
             </TableCell>

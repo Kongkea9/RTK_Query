@@ -1,21 +1,26 @@
-import { fakeStoreApi } from "../api/api";
 
+const BASE_URL = process.env.NEXT_PUBLIC_API;
 
-interface uploadResponse {
-  urls: string[]; 
+export default async function UploadFile(files: FormData) {
+  console.log("This is file from fetching to upload", files);
+  const data = await fetch(`${BASE_URL}/files/upload`, {
+    method: "POST",
+
+    body: files,
+  });
+  const fileUrls = await data.json();
+  return fileUrls;
 }
 
-export const fileApi = fakeStoreApi.injectEndpoints({
-  endpoints: (builder) => ({
-    uploadFile: builder.mutation<uploadResponse, FormData>({
-      query: (files) => ({
-        url: "/files/upload",
-        method: "POST",
-        body: files,
-      }),
-    }),
-  }),
-});
 
+export async function deleteProductById(id: number | string) {
+  if (!id) throw new Error("Invalid product ID");
 
-export const { useUploadFileMutation } = fileApi;
+  const res = await fetch(`${BASE_URL}/products/${id}`, 
+    
+    { method: "DELETE" });
+ 
+  if (!res.ok) throw new Error(await res.text() || "Failed to delete product");
+
+  return res.json(); // true on success
+}

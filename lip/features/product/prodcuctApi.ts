@@ -24,9 +24,10 @@ export const productApi = fakeStoreApi.injectEndpoints({
       providesTags: ["products"],
     }),
 
-
-    
-    updateProduct: builder.mutation< productResponse,{ id: number; data: productRequst }>({
+    updateProduct: builder.mutation<
+      productResponse,
+      { id: number; data: productRequst }
+    >({
       query: ({ id, data }) => ({
         url: `/products/${id}`,
         method: "PUT",
@@ -34,7 +35,6 @@ export const productApi = fakeStoreApi.injectEndpoints({
       }),
       invalidatesTags: ["products"],
     }),
-
 
     deleteProduct: builder.mutation<void, number>({
       query: (id) => ({
@@ -51,61 +51,6 @@ export const {
   useAddProductsMutation,
   useGetProductQuery,
   useDeleteProductMutation,
-  useUpdateProductMutation
-
+  useUpdateProductMutation,
 } = productApi;
 
-// import { productRequst, productResponse } from "@/lip/types/productType";
-// import { fakeStoreApi } from "../api/api";
-
-// export const productApi = fakeStoreApi.injectEndpoints({
-//   endpoints: (builder) => ({
-
-//     getProducts: builder.query<productResponse[], void>({
-//       query: () => "/products",
-//       providesTags: ["products"],
-//     }),
-
-//     getProduct: builder.query<productResponse, number>({
-//       query: (id) => `/products/${id}`,
-//       providesTags: ["products"],
-//     }),
-
-//     addProduct: builder.mutation<productResponse, productRequst>({
-//       query: (newProduct) => ({
-//         url: "/products",
-//         method: "POST",
-//         body: newProduct,
-//       }),
-//       invalidatesTags: ["products"],
-//     }),
-
-//     updateProduct: builder.mutation<
-//       productResponse,
-//       { id: number; data: productRequst }
-//     >({
-//       query: ({ id, data }) => ({
-//         url: `/products/${id}`,
-//         method: "PUT",
-//         body: data,
-//       }),
-//       invalidatesTags: ["products"],
-//     }),
-
-//     deleteProduct: builder.mutation<void, number>({
-//       query: (id) => ({
-//         url: `/products/${id}`,
-//         method: "DELETE",
-//       }),
-//       invalidatesTags: ["products"],
-//     }),
-//   }),
-// });
-
-// export const {
-//   useGetProductsQuery,
-//   useGetProductQuery,
-//   useAddProductMutation,
-//   useUpdateProductMutation,
-//   useDeleteProductMutation,
-// } = productApi;

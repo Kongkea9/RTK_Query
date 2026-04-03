@@ -3,6 +3,7 @@ import { useGetProductQuery } from "@/lip/features/product/prodcuctApi";
 import { UpdateProductForm } from "@/components/forms/product-form-update";
 import { useParams } from "next/navigation";
 import { use } from "react";
+import { ProductForm } from "@/components/forms/product-form";
 
 export default function UpdateProductPage({
   params,
@@ -18,6 +19,6 @@ export default function UpdateProductPage({
   if (isLoading) return <p>Loading...</p>;
   if (error || !product) return <p>Product not found</p>;
 
-  return <UpdateProductForm product={product} />;
+  return <ProductForm product={product} />;
 }
 

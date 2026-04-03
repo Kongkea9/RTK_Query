@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { use } from "react";
+import { da } from "zod/locales";
 
 const baseApi = process.env.NEXT_PUBLIC_API;
 
@@ -35,9 +36,13 @@ export async function PUT(
   return NextResponse.json(data);
 }
 
-export async function DELETE({ params }: { params: { id: string } }) {
-  const res = await fetch(`${baseApi}/products/${params.id}`, {
+export async function DELETE(req: NextRequest,
+    { params }: { params:  Promise<{ id: number }> }) {
+    const { id } =  await params;
+    console.log(id)
+  const res = await fetch(`${baseApi}/products/${id}`, {
     method: "DELETE",
   });
-  return NextResponse.json({ message: "Deleted successfully" });
+  const data = await res.json();
+  return NextResponse.json(data);
 }
