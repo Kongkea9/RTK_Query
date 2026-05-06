@@ -16,8 +16,6 @@ export async function POST(request: Request) {
       );
     }
 
-    // ⭐ THE MAGIC FIX
-    // Convert file → ArrayBuffer safely in ALL environments
     const buffer = Buffer.from(await file.arrayBuffer());
 
     const fileName = `${Date.now()}-${file.name}`;
